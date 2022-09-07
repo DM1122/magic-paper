@@ -1,11 +1,13 @@
 [tool.poetry]
-name = "main"
+name = "magic_paper"
 version = "0.1.0"
 description = ""
 authors = ["DM1122"]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
+Pillow = "^9.2.0"
+numpy = "^1.23.2"
 
 [tool.poetry.dev-dependencies]
 ipykernel = "^6.13.0"
@@ -30,6 +32,7 @@ sections="FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
 import_heading_stdlib="stdlib"
 import_heading_thirdparty="external"
 import_heading_firstparty="project"
+known_first_party = ["magic_paper"]
 
 [tool.black]
 line-length = 88
