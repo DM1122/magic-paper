@@ -10,15 +10,23 @@ from PIL import Image
 # project
 from magic_paper import MagicPaper
 
+# import RPi.GPIO as GPIO
+
+
 CONFIG_PATH = Path("config.conf")
 
 
 def main():
     """Main program thread."""
-    magic_paper = MagicPaper(config_path=CONFIG_PATH)
 
+    # region Setup
+    display = auto()
+    magic_paper = MagicPaper(config_path=CONFIG_PATH, display=display)
+
+    # endregion
+
+    # region Update
     while True:
-
         if timer or button_A:
             img = libs.shuffle_image()
             display.set_image(img)
@@ -33,6 +41,7 @@ def main():
 
         if button_D:
             libs.reboot()
+    # endregion
 
 
 if __name__ == "__main__":

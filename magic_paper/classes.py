@@ -2,6 +2,9 @@
 # stdlib
 import configparser
 import logging
+
+# import RPi.GPIO as gpio
+import os
 import random
 from pathlib import Path
 
@@ -22,8 +25,51 @@ class MagicPaper:
         self.display = display
         self.active_image = None
 
+        # region config io
+        # gpio pins for each button (from top to bottom)
+        self.buttons = {"A": 5, "B": 6, "C": 16, "D": 24}
+        self.button_bouncetime = 250  # ms
+
+        # Set up RPi.gpio with the "BCM" numbering scheme
+        gpio.setmode(gpio.BCM)
+
+        # Buttons connect to ground when pressed, so we should set them up
+        # with a "PULL UP", which weakly pulls the input signal to 3.3V.
+        for button in self.buttons.values():
+            gpio.setup(button, gpio.IN, pull_up_down=gpio.PUD_UP)
+
+        # Attach the "handle_button" function to each
+        # We're watching the "FALLING" edge (transition from 3.3V to Ground) and
+        # picking a generous bouncetime to smooth out button presses.
+        gpio.add_event_detect(
+            self.buttons["A"],
+            gpio.FALLING,
+            self.shuffle,
+            bouncetime=self.button_bouncetime,
+        )
+        gpio.add_event_detect(
+            self.buttons["B"],
+            gpio.FALLING,
+            self.rotate_image,
+            bouncetime=self.button_bouncetime,
+        )
+        gpio.add_event_detect(
+            self.buttons["C"],
+            gpio.FALLING,
+            self.toggle_display_mode,
+            bouncetime=self.button_bouncetime,
+        )
+        gpio.add_event_detect(
+            self.buttons["D"],
+            gpio.FALLING,
+            self.reboot,
+            bouncetime=self.button_bouncetime,
+        )
+        # endregion
+
     def shuffle(self):
         """Sample a new image from the image directory and display it."""
+        LOG.info("Shuffling image.")
         img_paths = self._get_image_paths()
         if img_paths == []:  # display the missing images screen
             img = self._load_image(
@@ -39,6 +85,7 @@ class MagicPaper:
     def rotate_image(self):
         """Rotate the displayed image clockwise by 90 degrees and save the
         rotation to the config."""
+        LOG.info("Rotating image.")
         angle = self.config.getint("main", "display_rotation")
         angle = (angle + 90) % 360
 
@@ -55,7 +102,7 @@ class MagicPaper:
 
     def reboot(self):
         """Reboot the Pi."""
-        pass
+        os.system("sudo reboot")
 
     def update_config(self):
         pass
