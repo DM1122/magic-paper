@@ -1,17 +1,14 @@
 """Main program."""
 # stdlib
-import random
 from pathlib import Path
 
 # external
+import RPi.GPIO as GPIO
 from inky.auto import auto
 from PIL import Image
 
 # project
 from magic_paper import MagicPaper
-
-# import RPi.GPIO as GPIO
-
 
 CONFIG_PATH = Path("config.conf")
 
@@ -22,12 +19,11 @@ def main():
     # region Setup
     display = auto()
     magic_paper = MagicPaper(config_path=CONFIG_PATH, display=display)
-
     # endregion
 
     # region Update
     while True:
-        if timer or button_A:
+        if button_A:  # or timer
             img = libs.shuffle_image()
             display.set_image(img)
             timer.restart()

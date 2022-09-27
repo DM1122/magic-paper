@@ -2,13 +2,13 @@
 # stdlib
 import configparser
 import logging
-
-# import RPi.GPIO as gpio
 import os
 import random
+import threading
 from pathlib import Path
 
 # external
+import RPi.GPIO as gpio
 from PIL import Image
 
 LOG = logging.getLogger(__name__)
@@ -25,7 +25,6 @@ class MagicPaper:
         self.display = display
         self.active_image = None
 
-        # region config io
         # gpio pins for each button (from top to bottom)
         self.buttons = {"A": 5, "B": 6, "C": 16, "D": 24}
         self.button_bouncetime = 250  # ms
@@ -65,7 +64,9 @@ class MagicPaper:
             self.reboot,
             bouncetime=self.button_bouncetime,
         )
-        # endregion
+
+        timer = threading.Timer(60.0, shuffle)
+        timer.start()  # after 60 seconds, 'callback' will be called
 
     def shuffle(self):
         """Sample a new image from the image directory and display it."""
