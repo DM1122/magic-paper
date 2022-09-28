@@ -19,12 +19,20 @@ class MagicPaper:
 
     def __init__(self, config_path: Path, display):
         """Initialize the controller."""
-        self.config = configparser.ConfigParser()
-        self.config.read(config_path)
-
+        LOG.info("Initializing controller...")
         self.display = display
         self.active_image = None
 
+        # region load config
+        self.config = configparser.ConfigParser()
+        self.config.read(config_path)
+        assert (
+            self.config.sections() != []
+        ), f"Config file at '{config_path}' could not be loaded correctly."
+        LOG.debug(f"Config file at '{config_path}' loaded: {self.config.sections()}")
+        # endregion
+
+        # region config io
         # gpio pins for each button (from top to bottom)
         self.buttons = {"A": 5, "B": 6, "C": 16, "D": 24}
         self.button_bouncetime = 250  # ms
@@ -40,48 +48,60 @@ class MagicPaper:
         # Attach the "handle_button" function to each
         # We're watching the "FALLING" edge (transition from 3.3V to Ground) and
         # picking a generous bouncetime to smooth out button presses.
-        gpio.add_event_detect(
-            self.buttons["A"],
-            gpio.FALLING,
-            self.shuffle,
-            bouncetime=self.button_bouncetime,
-        )
-        gpio.add_event_detect(
-            self.buttons["B"],
-            gpio.FALLING,
-            self.rotate_image,
-            bouncetime=self.button_bouncetime,
-        )
-        gpio.add_event_detect(
-            self.buttons["C"],
-            gpio.FALLING,
-            self.toggle_display_mode,
-            bouncetime=self.button_bouncetime,
-        )
-        gpio.add_event_detect(
-            self.buttons["D"],
-            gpio.FALLING,
-            self.reboot,
-            bouncetime=self.button_bouncetime,
-        )
+        # gpio.add_event_detect(
+        #     self.buttons["A"],
+        #     gpio.FALLING,
+        #     self.shuffle,
+        #     bouncetime=self.button_bouncetime,
+        # )
+        # gpio.add_event_detect(
+        #     self.buttons["B"],
+        #     gpio.FALLING,
+        #     self.rotate_image,
+        #     bouncetime=self.button_bouncetime,
+        # )
+        # gpio.add_event_detect(
+        #     self.buttons["C"],
+        #     gpio.FALLING,
+        #     self.toggle_display_mode,
+        #     bouncetime=self.button_bouncetime,
+        # )
+        # gpio.add_event_detect(
+        #     self.buttons["D"],
+        #     gpio.FALLING,
+        #     self.reboot,
+        #     bouncetime=self.button_bouncetime,
+        # )
+        # endregion
 
-        timer = threading.Timer(60.0, shuffle)
-        timer.start()  # after 60 seconds, 'callback' will be called
+        self.shuffle()
 
     def shuffle(self):
         """Sample a new image from the image directory and display it."""
-        LOG.info("Shuffling image.")
+        LOG.info("Shuffling display image.")
         img_paths = self._get_image_paths()
         if img_paths == []:  # display the missing images screen
+            LOG.info("No images found. Displaying default image.")
             img = self._load_image(
                 Path(self.config["main"]["builtin_image_directory"])
-                / "missing_images.png"
+                / "missing-images.png"
             )
             self.show(img)
         else:
             img_path = random.choice(img_paths)
             img = self._load_image(img_path)
             self.show(img)
+            self.reset_timer()
+
+    def reset_timer(self):
+        """Reset the timer."""
+        LOG.info(
+            f"Setting shuffle timer for {self.config['main']['shuffle_image_interval']}s."
+        )
+        self.timer = threading.Timer(
+            self.config["main"]["shuffle_image_interval"], self.shuffle
+        )
+        self.timer.start()
 
     def rotate_image(self):
         """Rotate the displayed image clockwise by 90 degrees and save the
@@ -97,7 +117,7 @@ class MagicPaper:
         self.config.set("main", "display_rotation", angle)
 
         with open("config.conf", "w") as configfile:
-            config.write(configfile)
+            self.config.write(configfile)
 
         self.refresh_image()
 
