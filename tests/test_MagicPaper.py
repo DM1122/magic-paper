@@ -52,14 +52,14 @@ def test_process_image_fit(mode, exception):
     controller = MagicPaper(config_path=TEST_CONFIG_PATH, display=display)
     test_img_path = Path("tests/test_img/doggo_portrait.jpg")
 
-    img = controller._load_image(test_img_path)
+    img = controller.load_image(test_img_path)
     controller.config["main"]["display_mode"] = mode
 
     if exception is None:
-        img = controller._process_image(img)
+        img = controller.process_image(img)
     else:
         with pytest.raises(exception):
-            img = controller._process_image(img)
+            img = controller.process_image(img)
 
     LOG.info(img)
 
@@ -70,7 +70,7 @@ def test_load_image():
     controller = MagicPaper(config_path=TEST_CONFIG_PATH, display=display)
     test_img_path = Path("tests/test_img/doggo_portrait.jpg")
 
-    img = controller._load_image(test_img_path)
+    img = controller.load_image(test_img_path)
 
     LOG.info(img)
 
@@ -80,6 +80,6 @@ def test_get_image_paths():
     display = inky.InkyMockImpression()
     controller = MagicPaper(config_path=TEST_CONFIG_PATH, display=display)
 
-    paths = controller._get_image_paths()
+    paths = controller.get_image_paths()
 
     LOG.info(paths)
