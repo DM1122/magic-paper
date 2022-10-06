@@ -9,6 +9,7 @@ python = ">=3.10,<3.11"
 Pillow = "^9.2.0"
 numpy = "^1.23.2"
 inky = {extras = ["rpi"], version = "^1.3.2"}
+pillow-heif = "^0.7.0"
 
 [tool.poetry.dev-dependencies]
 ipykernel = "^6.13.0"

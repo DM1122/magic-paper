@@ -111,8 +111,7 @@ class MagicPaper:
         if img_paths == []:
             LOG.info("No images found. Displaying default image.")
             img_path = (
-                Path(self.config["paths"]["builtin_images"])
-                / "missing_images.png"
+                Path(self.config["paths"]["builtin_images"]) / "missing_images.png"
             )
             img = imagelib.load_image(img_path)
 
@@ -131,7 +130,7 @@ class MagicPaper:
             f"Setting shuffle timer for {self.config['display']['shuffle_interval']}m."
         )
         self.timer = threading.Timer(
-            self.config["display"]["shuffle_interval"]*60, self.shuffle
+            self.config["display"]["shuffle_interval"] * 60, self.shuffle
         )
         self.timer.start()
 
@@ -147,9 +146,7 @@ class MagicPaper:
 
         self.config.set("main", "display_rotation", angle)
 
-        with open("config.conf", mode="w", encoding="utf-8") as configfile:
-            self.config.write(configfile)
-
+        self._update_config()
         self.refresh_image()
 
     def refresh_image(self):
@@ -173,8 +170,7 @@ class MagicPaper:
             LOG.error(f"Invalid display mode: {current_mode}")
             raise ValueError(f"Invalid display mode: {current_mode}")
 
-        with open("config.conf", mode="w", encoding="utf-8") as configfile:
-            self.config.write(configfile)
+        self._update_config()
 
         self.refresh_image()
 
@@ -200,10 +196,14 @@ class MagicPaper:
             img = imagelib.add_text(img=img, text=text)
 
         if self.config["display"]["mode"] == "fit":
-            img = imagelib.fit_image(img=img, screen_size=(self.display.width, self.display.height))
+            img = imagelib.fit_image(
+                img=img, screen_size=(self.display.width, self.display.height)
+            )
 
         elif self.config["display"]["mode"] == "fill":
-            img = imagelib.fill_image(img=img, screen_size=(self.display.width, self.display.height))
+            img = imagelib.fill_image(
+                img=img, screen_size=(self.display.width, self.display.height)
+            )
 
         else:
             raise ValueError(
@@ -220,3 +220,9 @@ class MagicPaper:
         )
 
         self.show(img, text=str(error))
+
+    def _update_config(self):
+        """Update the config file."""
+        LOG.debug("Updating config file.")
+        with open("config.conf", mode="w", encoding="utf-8") as configfile:
+            self.config.write(configfile)

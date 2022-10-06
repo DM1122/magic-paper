@@ -66,7 +66,7 @@ python-versions = "*"
 name = "cffi"
 version = "1.15.1"
 description = "Foreign Function Interface for Python calling C code."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -195,25 +195,6 @@ description = "iniconfig: brain-dead simple config-ini parsing"
 category = "dev"
 optional = false
 python-versions = "*"
-
-[[package]]
-name = "inky"
-version = "1.3.2"
-description = "Inky pHAT Driver"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-numpy = "*"
-"RPi.GPIO" = {version = "*", optional = true, markers = "extra == \"rpi\""}
-smbus2 = "*"
-spidev = "*"
-
-[package.extras]
-example-depends = ["beautifulsoup4", "font-fredoka-one", "font-hanken-grotesk", "font-intuitive", "font-source-serif-pro", "geocoder", "requests"]
-rpi = ["RPi.GPIO"]
-rpi-gpio-output = ["RPi.GPIO"]
 
 [[package]]
 name = "ipykernel"
@@ -507,6 +488,24 @@ docs = ["furo", "olefile", "sphinx (>=2.4)", "sphinx-copybutton", "sphinx-issues
 tests = ["check-manifest", "coverage", "defusedxml", "markdown2", "olefile", "packaging", "pyroma", "pytest", "pytest-cov", "pytest-timeout"]
 
 [[package]]
+name = "pillow-heif"
+version = "0.7.0"
+description = "Python 3.6+ interface to libheif library"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+cffi = ">=1.14.6"
+pillow = ">=6.2.0"
+
+[package.extras]
+dev = ["coverage", "defusedxml", "numpy", "opencv-python", "packaging", "piexif", "pre-commit", "pylint (<=2.14.5)", "pympler", "pytest"]
+docs = ["sphinx (>=4.4)", "sphinx-issues (>=3.0.1)", "sphinx-rtd-theme (>=1.0)"]
+tests = ["defusedxml", "numpy", "packaging", "piexif", "pympler", "pytest"]
+tests-min = ["defusedxml", "packaging", "piexif", "pytest"]
+
+[[package]]
 name = "platformdirs"
 version = "2.5.2"
 description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
@@ -599,7 +598,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 name = "pycparser"
 version = "2.21"
 description = "C parser in Python"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
@@ -731,14 +730,6 @@ cffi = {version = "*", markers = "implementation_name == \"pypy\""}
 py = {version = "*", markers = "implementation_name == \"pypy\""}
 
 [[package]]
-name = "RPi.GPIO"
-version = "0.7.1"
-description = "A module to control Raspberry Pi GPIO channels"
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "setuptools"
 version = "65.3.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
@@ -758,27 +749,6 @@ description = "Python 2 and 3 compatibility utilities"
 category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
-
-[[package]]
-name = "smbus2"
-version = "0.4.2"
-description = "smbus2 is a drop-in replacement for smbus-cffi/smbus-python in pure Python"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.extras]
-docs = ["sphinx (>=1.5.3)"]
-qa = ["flake8"]
-test = ["mock", "nose"]
-
-[[package]]
-name = "spidev"
-version = "3.5"
-description = "Python bindings for Linux SPI access through spidev"
-category = "main"
-optional = false
-python-versions = "*"
 
 [[package]]
 name = "stack-data"
@@ -883,7 +853,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10,<3.11"
-content-hash = "59657236370b52c53f149db7aab36e102f22bdd6a0478995631919fb636f1959"
+content-hash = "2bfcd42278fd673ff4a96a1a6cee0495bd0c64d2a5a498636155862b963fcc20"
 
 [metadata.files]
 appnope = [
@@ -1090,9 +1060,6 @@ identify = [
 iniconfig = [
     {file = "iniconfig-1.1.1-py2.py3-none-any.whl", hash = "sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3"},
     {file = "iniconfig-1.1.1.tar.gz", hash = "sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32"},
-]
-inky = [
-    {file = "inky-1.3.2.tar.gz", hash = "sha256:1ff2fe27380c26cd79c0aaac2a61f553fdfd1c583a6e8d4f5e6acbda2e64df6a"},
 ]
 ipykernel = [
     {file = "ipykernel-6.15.3-py3-none-any.whl", hash = "sha256:befe3736944b21afec8e832725e9a45f254c8bd9afc40b61d6661c97e45aff5a"},
@@ -1316,6 +1283,27 @@ Pillow = [
     {file = "Pillow-9.2.0-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:0030fdbd926fb85844b8b92e2f9449ba89607231d3dd597a21ae72dc7fe26927"},
     {file = "Pillow-9.2.0.tar.gz", hash = "sha256:75e636fd3e0fb872693f23ccb8a5ff2cd578801251f3a4f6854c6a5d437d3c04"},
 ]
+pillow-heif = [
+    {file = "pillow_heif-0.7.0-cp36-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:80347012d874d0e0712b5fc3235bc9b914e8fb52f781b10d9389c2c8a691b41a"},
+    {file = "pillow_heif-0.7.0-cp36-abi3-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:eb79c49992c98b6bd059fd8f3440fb1ebc3b6b222f95c5e34f0e1c1cfd2c0248"},
+    {file = "pillow_heif-0.7.0-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:895e7b6c32eab5a60352f5da8613be3b44f5ccef0fafaafbb63a6fd461a79c8b"},
+    {file = "pillow_heif-0.7.0-cp36-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:ab717840e8d4bb4b2730aec99f28c6039a05b9f0629bf481e4c7d9effd2fb37f"},
+    {file = "pillow_heif-0.7.0-cp36-abi3-musllinux_1_1_i686.whl", hash = "sha256:e26f032b934925df2a2bc275e19abb5737fbbba85f686dd6ac553011cd2b7e89"},
+    {file = "pillow_heif-0.7.0-cp36-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:9b81f2b66188aaab4c02f5a6e52a136e03c6a8cf39491a7d9b94317f29457c6d"},
+    {file = "pillow_heif-0.7.0-cp37-abi3-macosx_10_9_x86_64.whl", hash = "sha256:a7d261a33d3ea996c4ce573f8cb52b68d6b9824badfcfc7a306ecd22a7c31c59"},
+    {file = "pillow_heif-0.7.0-cp37-abi3-win_amd64.whl", hash = "sha256:0d5820d77c5a8445a3e9963982fea22705c555eceea3f237d5e4063b78a3c22f"},
+    {file = "pillow_heif-0.7.0-cp38-abi3-macosx_12_0_arm64.whl", hash = "sha256:205b11e41fb09312d584fd25b3691337c86da958824eba4c5a3bb7867dca6f03"},
+    {file = "pillow_heif-0.7.0-cp38-abi3-manylinux_2_31_armv7l.whl", hash = "sha256:043f36f5b672e2962bb2181279d6da89aed870deb23a0a22eb7160bf0ef60d91"},
+    {file = "pillow_heif-0.7.0-pp37-pypy37_pp73-macosx_10_9_x86_64.whl", hash = "sha256:f294c30fc55688c7fc025bfc305e21e059bc43108a877f46045f84e0f07a3eb7"},
+    {file = "pillow_heif-0.7.0-pp37-pypy37_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a1bdb98daf42470fb3b9c02b84a618170c872aa58cf013f1ba8dcc2c077f0df6"},
+    {file = "pillow_heif-0.7.0-pp37-pypy37_pp73-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:a4a3acd9256c36f6a1899da922b2069227e8e8f20d89ce580b2ff0111516c721"},
+    {file = "pillow_heif-0.7.0-pp37-pypy37_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d0684fd3908a96a9c17c0f11dbff7bdc936a54b12142028b071685f5efc0a3ec"},
+    {file = "pillow_heif-0.7.0-pp38-pypy38_pp73-macosx_10_9_x86_64.whl", hash = "sha256:31bbaf4129de58a2dec2ac2b62d24fb66ff56fab1d762b00d512e1421886cc42"},
+    {file = "pillow_heif-0.7.0-pp38-pypy38_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c81b0c04df26feff0cb32948d05161fcb90f236766b3dd4bdf00f9c29e193627"},
+    {file = "pillow_heif-0.7.0-pp38-pypy38_pp73-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:5799ae53b34ec78035ed5955ae90987dbf2ab9bba8aff0e42c654b3d5745aa36"},
+    {file = "pillow_heif-0.7.0-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2a908ec284d6bf42a4445b261c1dd65393eb0ed7b1fa1fffc7f69026c4c1e921"},
+    {file = "pillow_heif-0.7.0.tar.gz", hash = "sha256:26261582b1437a132f58e17dbf6fd5301689fb2f9f205d119cd32b875f0e0700"},
+]
 platformdirs = [
     {file = "platformdirs-2.5.2-py3-none-any.whl", hash = "sha256:027d8e83a2d7de06bbac4e5ef7e023c02b863d7ea5d079477e722bb41ab25788"},
     {file = "platformdirs-2.5.2.tar.gz", hash = "sha256:58c8abb07dcb441e6ee4b11d8df0ac856038f944ab98b7be6b27b2a3c7feef19"},
@@ -1453,6 +1441,13 @@ PyYAML = [
     {file = "PyYAML-6.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:f84fbc98b019fef2ee9a1cb3ce93e3187a6df0b2538a651bfb890254ba9f90b5"},
     {file = "PyYAML-6.0-cp310-cp310-win32.whl", hash = "sha256:2cd5df3de48857ed0544b34e2d40e9fac445930039f3cfe4bcc592a1f836d513"},
     {file = "PyYAML-6.0-cp310-cp310-win_amd64.whl", hash = "sha256:daf496c58a8c52083df09b80c860005194014c3698698d1a57cbcfa182142a3a"},
+    {file = "PyYAML-6.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:d4b0ba9512519522b118090257be113b9468d804b19d63c71dbcf4a48fa32358"},
+    {file = "PyYAML-6.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:81957921f441d50af23654aa6c5e5eaf9b06aba7f0a19c18a538dc7ef291c5a1"},
+    {file = "PyYAML-6.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:afa17f5bc4d1b10afd4466fd3a44dc0e245382deca5b3c353d8b757f9e3ecb8d"},
+    {file = "PyYAML-6.0-cp311-cp311-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:dbad0e9d368bb989f4515da330b88a057617d16b6a8245084f1b05400f24609f"},
+    {file = "PyYAML-6.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:432557aa2c09802be39460360ddffd48156e30721f5e8d917f01d31694216782"},
+    {file = "PyYAML-6.0-cp311-cp311-win32.whl", hash = "sha256:bfaef573a63ba8923503d27530362590ff4f576c626d86a9fed95822a8255fd7"},
+    {file = "PyYAML-6.0-cp311-cp311-win_amd64.whl", hash = "sha256:01b45c0191e6d66c470b6cf1b9531a771a83c1c4208272ead47a3ae4f2f603bf"},
     {file = "PyYAML-6.0-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:897b80890765f037df3403d22bab41627ca8811ae55e9a722fd0392850ec4d86"},
     {file = "PyYAML-6.0-cp36-cp36m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:50602afada6d6cbfad699b0c7bb50d5ccffa7e46a3d738092afddc1f9758427f"},
     {file = "PyYAML-6.0-cp36-cp36m-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:48c346915c114f5fdb3ead70312bd042a953a8ce5c7106d5bfb1a5254e47da92"},
@@ -1556,16 +1551,6 @@ pyzmq = [
     {file = "pyzmq-24.0.1-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:687700f8371643916a1d2c61f3fdaa630407dd205c38afff936545d7b7466066"},
     {file = "pyzmq-24.0.1.tar.gz", hash = "sha256:216f5d7dbb67166759e59b0479bca82b8acf9bed6015b526b8eb10143fb08e77"},
 ]
-"RPi.GPIO" = [
-    {file = "RPi.GPIO-0.7.1-cp27-cp27mu-linux_armv6l.whl", hash = "sha256:b86b66dc02faa5461b443a1e1f0c1d209d64ab5229696f32fb3b0215e0600c8c"},
-    {file = "RPi.GPIO-0.7.1-cp310-cp310-linux_armv6l.whl", hash = "sha256:57b6c044ef5375a78c8dda27cdfadf329e76aa6943cd6cffbbbd345a9adf9ca5"},
-    {file = "RPi.GPIO-0.7.1-cp37-cp37m-linux_armv6l.whl", hash = "sha256:77afb817b81331ce3049a4b8f94a85e41b7c404d8e56b61ac0f1eb75c3120868"},
-    {file = "RPi.GPIO-0.7.1-cp38-cp38-linux_armv6l.whl", hash = "sha256:29226823da8b5ccb9001d795a944f2e00924eeae583490f0bc7317581172c624"},
-    {file = "RPi.GPIO-0.7.1-cp39-cp39-linux_armv6l.whl", hash = "sha256:15311d3b063b71dee738cd26570effc9985a952454d162937c34e08c0fc99902"},
-    {file = "RPi.GPIO-0.7.1-py2.7-linux-armv6l.egg", hash = "sha256:26b2ade4bb353bbe5417a64e40b45cdf00a82f27c2d320c0dd46c59751959d77"},
-    {file = "RPi.GPIO-0.7.1-py3.7-linux-armv6l.egg", hash = "sha256:96ea7e5bf6bf592828487bfa7d3d1d0e432d5d1682e9e33b4dab398914628fcd"},
-    {file = "RPi.GPIO-0.7.1.tar.gz", hash = "sha256:cd61c4b03c37b62bba4a5acfea9862749c33c618e0295e7e90aa4713fb373b70"},
-]
 setuptools = [
     {file = "setuptools-65.3.0-py3-none-any.whl", hash = "sha256:2e24e0bec025f035a2e72cdd1961119f557d78ad331bb00ff82efb2ab8da8e82"},
     {file = "setuptools-65.3.0.tar.gz", hash = "sha256:7732871f4f7fa58fb6bdcaeadb0161b2bd046c85905dbaa066bdcbcc81953b57"},
@@ -1573,13 +1558,6 @@ setuptools = [
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
-]
-smbus2 = [
-    {file = "smbus2-0.4.2-py2.py3-none-any.whl", hash = "sha256:50f3c78e436b42a9583948be06961a8104cf020ebad5edfaaf2657528bef0818"},
-    {file = "smbus2-0.4.2.tar.gz", hash = "sha256:634541ed794068a822fe7499f1577468b9d4641b68dd9bfb6d0eb7270f4d2a32"},
-]
-spidev = [
-    {file = "spidev-3.5.tar.gz", hash = "sha256:8a7f5c289f161ea2ac4697fa8a10918232c990678dd0053084b3c43b1363910d"},
 ]
 stack-data = [
     {file = "stack_data-0.5.0-py3-none-any.whl", hash = "sha256:66d2ebd3d7f29047612ead465b6cae5371006a71f45037c7e2507d01367bce3b"},
