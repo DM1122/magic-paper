@@ -111,7 +111,7 @@ class MagicPaper:
         if img_paths == []:
             LOG.info("No images found. Displaying default image.")
             img_path = (
-                Path(self.config["main"]["builtin_image_directory"])
+                Path(self.config["paths"]["builtin_images"])
                 / "missing_images.png"
             )
             img = imagelib.load_image(img_path)
@@ -128,10 +128,10 @@ class MagicPaper:
     def reset_timer(self):
         """Reset the timer."""
         LOG.info(
-            f"Setting shuffle timer for {self.config['main']['shuffle_image_interval']}s."
+            f"Setting shuffle timer for {self.config['display']['shuffle_interval']}m."
         )
         self.timer = threading.Timer(
-            self.config["main"]["shuffle_image_interval"], self.shuffle
+            self.config["display"]["shuffle_interval"]*60, self.shuffle
         )
         self.timer.start()
 
