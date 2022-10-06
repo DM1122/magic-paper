@@ -32,14 +32,21 @@ class MagicPaper:
             raise e
 
         self.display = display
+        self.timer = None
         self.active_image = None
 
         # gpio pins for each button (from top to bottom)
         self.buttons = {"A": 5, "B": 6, "C": 16, "D": 24}
 
+    def start(self):
+        """Start the controller."""
+        LOG.info("Starting controller...")
+
+        self.shuffle()
+
     def _load_config(self, config_path: Path):
         """Load the config file."""
-        if not config_path.isfile():
+        if not config_path.is_file():
             raise FileNotFoundError(f"Config file not found: {config_path}")
 
         self.config = configparser.ConfigParser()
@@ -140,7 +147,7 @@ class MagicPaper:
 
         self.config.set("main", "display_rotation", angle)
 
-        with open("config.conf", "w") as configfile:
+        with open("config.conf", mode="w", encoding="utf-8") as configfile:
             self.config.write(configfile)
 
         self.refresh_image()
@@ -166,8 +173,8 @@ class MagicPaper:
             LOG.error(f"Invalid display mode: {current_mode}")
             raise ValueError(f"Invalid display mode: {current_mode}")
 
-        with open("config.conf", "w") as configfile:
-            config.write(configfile)
+        with open("config.conf", mode="w", encoding="utf-8") as configfile:
+            self.config.write(configfile)
 
         self.refresh_image()
 
