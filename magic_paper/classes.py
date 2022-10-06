@@ -103,7 +103,7 @@ class MagicPaper:
 
         try:
             img_paths = imagelib.get_image_paths(
-                search_path=self.config["paths"]["images"]
+                search_path=Path(self.config["paths"]["images"])
             )
         except FileNotFoundError as e:
             self.show_error(e)
