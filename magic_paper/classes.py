@@ -200,10 +200,10 @@ class MagicPaper:
             img = imagelib.add_text(img=img, text=text)
 
         if self.config["display"]["mode"] == "fit":
-            img = imagelib.fit_image(img=img, screen_size=self.display.size)
+            img = imagelib.fit_image(img=img, screen_size=(self.display.width, self.display.height))
 
         elif self.config["display"]["mode"] == "fill":
-            img = imagelib.fill_image(img=img, screen_size=self.display.size)
+            img = imagelib.fill_image(img=img, screen_size=(self.display.width, self.display.height))
 
         else:
             raise ValueError(
