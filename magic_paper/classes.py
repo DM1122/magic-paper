@@ -130,7 +130,7 @@ class MagicPaper:
             f"Setting shuffle timer for {self.config['display']['shuffle_interval']}m."
         )
         self.timer = threading.Timer(
-            self.config["display"]["shuffle_interval"] * 60, self.shuffle
+            float(self.config["display"]["shuffle_interval"]) * 60, self.shuffle
         )
         self.timer.start()
 
