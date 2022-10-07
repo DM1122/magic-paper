@@ -195,6 +195,15 @@ class MagicPaper:
         if text is not None:
             img = imagelib.add_text(img=img, text=text)
 
+        if self.config["display"]["orientation"] == "portait":
+            img = imagelib.rotate_image(img=img, angle=-90)
+        elif self.config["display"]["orientation"] == "landscape":
+            pass
+        else:
+            raise ValueError(
+                f"Invalid orientation: {self.config['display']['orientation']}"
+            )
+
         if self.config["display"]["mode"] == "fit":
             img = imagelib.fit_image(
                 img=img, screen_size=(self.display.width, self.display.height)
