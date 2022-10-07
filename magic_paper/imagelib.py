@@ -31,13 +31,16 @@ def rotate_image(img: Image, angle: int):
     return img
 
 
-def fit_image(img: Image, screen_size: tuple):
+def fit_image(img: Image, screen_size: tuple[int, int]):
     """Fit image to screen size."""
 
     img.thumbnail(screen_size)
 
-    bg = Image.new("RGBA", screen_size, (255, 255, 255, 255))
-    bg.paste(img, (bg.size[0] / 2 - img.size[0], bg.size[1] / 2 - img.size[1]))
+    bg = Image.new(mode="RGBA", size=screen_size, color=(255, 255, 255, 255))
+    bg.paste(
+        im=img,
+        box=(bg.size[0] // 2 - img.size[0] // 2, bg.size[1] // 2 - img.size[1] // 2),
+    )
 
     img = bg
 
