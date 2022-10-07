@@ -195,7 +195,7 @@ class MagicPaper:
         if text is not None:
             img = imagelib.add_text(img=img, text=text)
 
-        if self.config["display"]["orientation"] == "portait":
+        if self.config["display"]["orientation"] == "portrait":
             img = imagelib.rotate_image(img=img, angle=-90)
         elif self.config["display"]["orientation"] == "landscape":
             pass
