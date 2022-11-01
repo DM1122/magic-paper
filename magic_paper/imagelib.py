@@ -4,7 +4,7 @@ import logging
 from pathlib import Path
 
 # external
-from PIL import Image
+from PIL import Image, ImageOps
 from pillow_heif import register_heif_opener
 
 register_heif_opener()
@@ -17,6 +17,7 @@ def load_image(path: Path):
     img = Image.open(path).convert(
         "RGBA"
     )  # convert to RGBA to support transparency for fit image mode
+    img = ImageOps.exif_transpose(image=img)
     LOG.debug(f"Loaded image from {path}: {img}")
 
     return img
@@ -24,8 +25,8 @@ def load_image(path: Path):
 
 def rotate_image(img: Image, angle: int):
     """Rotate image."""
-
-    img.rotate(angle, resample=0, expand=0, center=None, translate=None, fillcolor=None)
+    LOG.debug("Rotating image")
+    img = img.rotate(angle, expand=True, fillcolor=(0,0,0,255))
     return img
 
 
