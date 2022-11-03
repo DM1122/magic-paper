@@ -33,8 +33,6 @@ def main():
     magic_paper = MagicPaper(config_path=CONFIG_PATH, display=display)
     magic_paper.start()
 
-    input("Program running. Press any key to quit.")
-
 
 if __name__ == "__main__":
     main()

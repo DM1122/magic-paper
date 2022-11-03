@@ -26,7 +26,7 @@ def load_image(path: Path):
 def rotate_image(img: Image, angle: int):
     """Rotate image."""
     LOG.debug("Rotating image")
-    img = img.rotate(angle, expand=True, fillcolor=(0,0,0,255))
+    img = img.rotate(angle, expand=True, fillcolor=(0, 0, 0, 255))
     return img
 
 

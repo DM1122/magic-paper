@@ -1,14 +1,14 @@
 #!/bin/sh
-echo "Running launch script"
+echo "Running magic paper launch script"
 
-echo "Current directory: $PWD. Changing directory..."
+echo "Current directory: '$PWD'. Changing directory..."
 cd /home/pi/magic-paper
-echo "Changed directory to: $PWD"
+echo "Changed directory to: '$PWD'"
 
-echo "Pulling git..."
+echo "Updating codebase..."
 git pull
 
-echo "Running python script..."
+echo "Running script..."
 /home/pi/.local/bin/poetry run python magic_paper/main.py
 
 echo "Done!"
